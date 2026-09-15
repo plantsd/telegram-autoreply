@@ -1,0 +1,24 @@
+{
+  "_readme": "Hinglish version — point TEMPLATES_FILE=templates.hinglish.json in .env to use this.",
+  "first_message": {
+    "enabled": true,
+    "templates": [
+      "Hi {first_name}! 👋 Message mil gaya, main thodi der mein reply karta hoon.",
+      "Namaste {first_name} 🙏 Aapka message dekh liya hai, jaldi hi jawab dunga.",
+      "Hey {first_name}, message ke liye thanks! Main free hote hi reply karunga. 🙂"
+    ]
+  },
+  "contact_signup": {
+    "enabled": true,
+    "templates": [
+      "Telegram par swagat hai {first_name}! 🎉 Kabhi bhi message karo.",
+      "Arre {first_name}, aap Telegram par aa gaye! 😄 Baat karte hain jab free ho."
+    ]
+  },
+  "group_join": {
+    "enabled": true,
+    "templates": [
+      "{chat_name} mein aapka swagat hai, {mention}! 👋"
+    ]
+  }
+}

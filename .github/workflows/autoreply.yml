@@ -1,0 +1,97 @@
+# ---------------------------------------------------------------------------
+#  Runs the auto-reply on GitHub's computers, every 30 minutes.
+#
+#  Nothing runs on your phone. Each run:
+#     1. downloads this repository
+#     2. takes back the saved state (who was already answered)
+#     3. looks at your recent Telegram chats
+#     4. replies to anything new, exactly once per person
+#     5. saves the state back into a small "state" branch
+#
+#  Settings live in:  Settings -> Secrets and variables -> Actions
+#     API_ID, API_HASH, SESSION_STRING        (see make-session-string.py)
+#
+#  You can also press "Run workflow" in the Actions tab to check right now.
+# ---------------------------------------------------------------------------
+name: Telegram auto-reply
+
+on:
+  schedule:
+    # every 30 minutes. (GitHub may add a few minutes of delay at busy times.)
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Test only - send nothing, just show what would be sent"
+        type: boolean
+        default: false
+
+# never let two checks overlap and answer the same person twice
+concurrency:
+  group: autoreply
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write          # needed to save the state branch
+
+    steps:
+      - name: Download the project
+        uses: actions/checkout@v4
+
+      - name: Take back the saved state
+        run: |
+          if git ls-remote --exit-code --heads origin state >/dev/null 2>&1; then
+            git fetch --depth=1 origin state
+            git checkout FETCH_HEAD -- data/ 2>/dev/null || true
+            echo "Saved state restored."
+          else
+            echo "No saved state yet - this is the first run."
+          fi
+
+      - name: Install the helper library
+        run: python -m pip install --quiet -r requirements.txt
+
+      - name: Check for new messages
+        env:
+          API_ID: ${{ secrets.API_ID }}
+          API_HASH: ${{ secrets.API_HASH }}
+          SESSION_STRING: ${{ secrets.SESSION_STRING }}
+          # what the bot does (same names as in your .env)
+          FIRST_REPLY_ENABLED: "true"
+          CONTACT_SIGNUP_ENABLED: "true"
+          GROUP_JOIN_ENABLED: "false"
+          IGNORE_BOTS: "true"
+          REPLY_DELAY_MIN_SECONDS: "0"
+          REPLY_DELAY_MAX_SECONDS: "0"
+          MAX_MESSAGES_PER_HOUR: "30"
+          SEND_TYPING_ACTION: "false"
+          PARSE_MODE: md
+          TEMPLATES_FILE: templates.json
+          DB_PATH: data/state.json
+          LOG_FILE: logs/autoreply.log
+          LOG_LEVEL: INFO
+          DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+        run: python poll.py
+
+      - name: Show the log if something went wrong
+        if: failure()
+        run: tail -40 logs/autoreply.log || true
+
+      - name: Save the state for the next run
+        if: always()
+        run: |
+          mkdir -p data
+          [ -f data/state.json ] || echo '{}' > data/state.json
+          git config user.name  "auto-reply bot"
+          git config user.email "auto-reply@users.noreply.github.com"
+          git checkout --orphan state-update
+          # an orphan branch keeps the old index, which would put the whole
+          # project on the state branch - drop it so ONLY the state is saved
+          git rm -r --cached . -q
+          git add -f data/state.json
+          git commit -m "state $(date -u +%Y-%m-%dT%H:%M:%SZ)" || true
+          git push -f origin state-update:state

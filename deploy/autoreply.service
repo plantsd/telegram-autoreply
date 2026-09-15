@@ -1,0 +1,23 @@
+# Install on a Linux VPS (keeps the bot running 24x7):
+#   sudo cp deploy/autoreply.service /etc/systemd/system/
+#   sudo nano /etc/systemd/system/autoreply.service   # fix User= and paths
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now autoreply
+#   journalctl -u autoreply -f                        # live logs
+[Unit]
+Description=Telegram auto-reply userbot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=YOUR_LINUX_USER
+WorkingDirectory=/home/YOUR_LINUX_USER/telegram-autoreply
+ExecStart=/home/YOUR_LINUX_USER/telegram-autoreply/.venv/bin/python bot.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

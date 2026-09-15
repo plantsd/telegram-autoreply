@@ -1,0 +1,33 @@
+{
+  "_readme": [
+    "Each section has 'enabled' plus a list of 'templates'.",
+    "If a section has more than one template, one is picked at random each time.",
+    "Placeholders you can use: {first_name} {last_name} {full_name} {username}",
+    "{mention} {user_id} {me_name} {chat_name} {date} {time} {day}",
+    "When PARSE_MODE=md, {mention} becomes a clickable @mention and names are",
+    "auto-escaped, so do not add * or _ around {first_name} unless you want bold/italic.",
+    "Leave the text empty (\"\") or set enabled:false to switch a section off."
+  ],
+  "first_message": {
+    "enabled": true,
+    "templates": [
+      "Hi {first_name}! 👋 Thanks for messaging. I've seen your message and I'll reply properly as soon as I'm free.",
+      "Hey {first_name}, thanks for reaching out! 🙌 I'm a bit tied up right now — I'll get back to you shortly.",
+      "Hello {first_name}! Got your message. I'll respond as soon as possible. 🙂"
+    ]
+  },
+  "contact_signup": {
+    "enabled": true,
+    "templates": [
+      "Welcome to Telegram, {first_name}! 🎉 Great to see you here. Ping me anytime.",
+      "Hey {first_name}, you finally joined Telegram! 😄 Message me whenever you're free."
+    ]
+  },
+  "group_join": {
+    "enabled": true,
+    "templates": [
+      "Welcome to {chat_name}, {mention}! 👋 Glad to have you here.",
+      "Hi {mention}, welcome aboard! 🎉 Say hello and introduce yourself."
+    ]
+  }
+}
