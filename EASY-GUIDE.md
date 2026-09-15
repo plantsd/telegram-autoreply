@@ -302,6 +302,7 @@ The bot explains problems in plain English. Common ones:
 | Command not found / it says "not finished yet" | You are in the wrong folder: `cd ~/projects/telegram-autoreply` first |
 | `bash status.sh` shows 2 bot copies | Run `bash stop.sh`, then `bash start.sh` — only one copy may run |
 | You want an old chat to get replies too | The bot replied-once-per-person and remembers. Find the person's id in `logs/autoreply.log`, then run `python bot.py --reset <id>` (or `python bot.py --reset-all` for everyone) |
+| `PUSH-TO-GITHUB.sh` says "your repository already contains files" | A leftover upload (like a zip) is there. Type `y` to let it replace them with your project |
 | `PUSH-TO-GITHUB.sh` says STOPPED | It found private files. Fix with `bash install-termux.sh`, then push again. If a session file ever did reach GitHub: Telegram → Settings → Devices → terminate that session, and change your password |
 | `git push` asks for a password | Use a token, not your password — the script prints the steps |
 

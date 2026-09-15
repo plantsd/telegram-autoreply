@@ -84,6 +84,12 @@ tells you exactly what to do if you forget, including the direct link:
 
 When it finishes you should see **DONE — your project is on GitHub ✔**.
 
+> **If it says your repository already contains files** (for example
+> `telegram-autoreply.zip` — that happens if the zip was once uploaded from the
+> GitHub website): it lists them and asks *"Replace them with your project?"*.
+> Type **y**. Only that one repository is affected; your phone files are untouched.
+> If it instead says the repository has many files, tell me before continuing.
+
 ---
 
 ## Step 3 — Give GitHub your 3 secrets
