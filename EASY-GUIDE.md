@@ -1,7 +1,7 @@
 # 📱 EASY GUIDE — Telegram auto-reply on your Android phone
 
 **Made for your setup:** Termux workspace `~/projects` · GitHub repo
-`https://github.com/dekuc/telegram-autoreply`
+`https://github.com/plantsd/telegram-autoreply`
 
 > **Want the bot to run without your phone?** Use
 > **[CLOUD-GUIDE-GITHUB.md](CLOUD-GUIDE-GITHUB.md)** instead — your GitHub runs the
@@ -34,14 +34,14 @@ Pick **one** of these two ways.
 
 ### Way A — Straight from your own GitHub repo (recommended)
 
-Your repository: **https://github.com/dekuc/telegram-autoreply**
+Your repository: **https://github.com/plantsd/telegram-autoreply**
 
 In Termux, type these 3 lines:
 
 ```bash
 pkg install -y git
 mkdir -p ~/projects && cd ~/projects
-git clone https://github.com/dekuc/telegram-autoreply.git
+git clone https://github.com/plantsd/telegram-autoreply.git
 cd ~/projects/telegram-autoreply
 ```
 

@@ -18,7 +18,7 @@ set -u
 
 cd "$(dirname "$0")" || exit 1
 
-REMOTE_URL="${1:-https://github.com/dekuc/telegram-autoreply.git}"
+REMOTE_URL="${1:-https://github.com/plantsd/telegram-autoreply.git}"
 BRANCH="main"
 LINE="=============================================================="
 say() { printf '%s\n' "$*"; }
